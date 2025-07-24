@@ -51,7 +51,95 @@
       let h = hours < 10 ? "0" + hours : hours;
       let m = minutes < 10 ? "0" + minutes : minutes;
       let s = seconds < 10 ? "0" + seconds : seconds;
-      timerDisplay.innerText = ${h}:${m}:${s};
+      timerDisplay.innerText = `${h}:${m}:${s}`;
+    }
+
+    function stopwatch() {
+      seconds++;
+      if (seconds === 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes === 60) {
+          minutes = 0;
+          hours++;
+        }
+      }
+      updateDisplay();
+    }
+
+    function start() {
+      if (interval !== null) return;
+      interval = setInterval(stopwatch, 1000);
+    }
+
+    function stop() {
+      clearInterval(interval);
+      interval = null;
+    }
+
+    function reset() {
+      clearInterval(interval);
+      interval = null;
+      [hours, minutes, seconds] = [0, 0, 0];
+      updateDisplay();
+    }
+  </script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stopwatch</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f4f4f4;
+      flex-direction: column;
+    }
+
+    .stopwatch {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stopwatch" id="display">00:00:00</div>
+  <div>
+    <button onclick="start()">Start</button>
+    <button onclick="stop()">Stop</button>
+    <button onclick="reset()">Reset</button>
+  </div>
+
+  <script>
+    let [hours, minutes, seconds] = [0, 0, 0];
+    let timerDisplay = document.getElementById("display");
+    let interval = null;
+
+    function updateDisplay() {
+      let h = hours < 10 ? "0" + hours : hours;
+      let m = minutes < 10 ? "0" + minutes : minutes;
+      let s = seconds < 10 ? "0" + seconds : seconds;
+      timerDisplay.innerText = `${h}:${m}:${s}`;
     }
 
     function stopwatch() {
